@@ -1,0 +1,39 @@
+/* CustomIcon.module.css */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.iconSmall {
+  width: 1rem;
+  height: 1rem;
+}
+
+.iconMedium {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.iconLarge {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Special effects for different icon types */
+.icon--ai {
+  color: var(--ifm-color-primary);
+}
+
+.icon--book {
+  color: var(--ifm-color-success);
+}
+
+.icon--code {
+  color: var(--ifm-color-info);
+}

@@ -1,0 +1,293 @@
+/* BookLayout.module.css */
+.bookLayout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem var(--ifm-spacing-horizontal);
+  min-height: calc(100vh - 200px);
+}
+
+.breadcrumbContainer {
+  margin-bottom: 2rem;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--ifm-font-color-secondary);
+  background-color: var(--ifm-background-surface-color);
+  padding: 0.75rem 1rem;
+  border-radius: var(--ifm-global-radius);
+  border-left: 3px solid var(--ifm-color-primary);
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbLink {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
+.breadcrumbSeparator {
+  margin: 0 0.5rem;
+  color: var(--ifm-font-color-secondary);
+}
+
+.breadcrumbCurrent {
+  color: var(--ifm-font-color-base);
+  font-weight: 500;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .contentContainer {
+    grid-template-columns: 250px 1fr;
+  }
+}
+
+@media (max-width: 996px) {
+  .contentContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sidebar {
+  display: none;
+  grid-area: sidebar;
+  position: sticky;
+  top: 4rem;
+  align-self: start;
+  height: fit-content;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+}
+
+@media (min-width: 997px) {
+  .sidebar {
+    display: block;
+  }
+}
+
+.mainContent {
+  grid-area: main;
+  max-width: 100%;
+}
+
+.docHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ifm-border-color);
+}
+
+.docTitle {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--ifm-heading-color);
+  line-height: 1.2;
+}
+
+.editLink {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--ifm-background-surface-color);
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-radius: var(--ifm-global-radius);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.editLink:hover {
+  background-color: var(--ifm-color-primary);
+  color: white;
+}
+
+.contentWrapper {
+  margin-bottom: 3rem;
+}
+
+.toc {
+  display: none;
+  position: sticky;
+  top: 4rem;
+  align-self: start;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding-left: 2rem;
+}
+
+.tocTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-font-color-secondary);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) {
+  .toc {
+    display: block;
+  }
+}
+
+.chapterNavigation {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ifm-border-color);
+}
+
+.chapterNavButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-border-color);
+  border-radius: var(--ifm-global-radius);
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navButton:hover {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.navArrow {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bookLayout {
+    padding: 1rem;
+  }
+
+  .docHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .docTitle {
+    font-size: 2rem;
+  }
+
+  .chapterNavButtons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Custom styling for content elements */
+.contentWrapper h2 {
+  font-size: 1.75rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--ifm-border-color);
+  color: var(--ifm-heading-color);
+}
+
+.contentWrapper h3 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--ifm-heading-color);
+}
+
+.contentWrapper p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.contentWrapper ul,
+.contentWrapper ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.contentWrapper li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.contentWrapper blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: var(--ifm-background-surface-color);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--ifm-global-radius) var(--ifm-global-radius) 0;
+}
+
+/* Code block styling */
+.contentWrapper pre {
+  border-radius: var(--ifm-code-border-radius);
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.contentWrapper code {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+}
+
+/* Table styling */
+.contentWrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.contentWrapper th,
+.contentWrapper td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ifm-border-color);
+}
+
+.contentWrapper th {
+  background-color: var(--ifm-background-surface-color);
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
