@@ -174,15 +174,8 @@ const config = {
         darkTheme: prismThemes.dracula,
         additionalLanguages: ['bash', 'json', 'yaml', 'docker', 'git'],
       },
-      algolia: {
-        // The application ID provided by Algolia
-        appId: 'YOUR_APP_ID',
-        // Public API key: it is safe to commit it
-        apiKey: 'YOUR_SEARCH_API_KEY',
-        indexName: 'ai-powered-book',
-        contextualSearch: true,
-        searchPagePath: 'search',
-      },
+      // Using local search instead of Algolia
+      algolia: undefined, // Disable Algolia
     }),
 };
 
