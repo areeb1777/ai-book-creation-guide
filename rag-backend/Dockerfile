@@ -17,12 +17,10 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (only app directory is required at runtime)
 COPY app ./app
-COPY ingestion ./ingestion
-COPY scripts ./scripts
 
-# Create non-root user
+# Create non-root user and set ownership
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
