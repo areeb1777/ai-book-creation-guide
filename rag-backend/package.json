@@ -1,0 +1,6 @@
+{
+  "name": "rag-backend-vercel-helper",
+  "version": "1.0.0",
+  "description": "A helper file to make this Python directory visible to the Vercel UI.",
+  "private": true
+}
