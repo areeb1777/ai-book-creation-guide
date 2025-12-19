@@ -1,23 +1,169 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
+/* Hero Section Styles - Thematic Redesign */
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  padding: 6rem 2rem;
   position: relative;
   overflow: hidden;
+  /* Using theme variables for a dark, thematic background */
+  background-color: #1a1a1a;
+  background-image:
+    radial-gradient(var(--ifm-color-primary-darkest), transparent 1px),
+    radial-gradient(var(--ifm-color-primary-dark), transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: 0 0, 20px 20px;
+  --ifm-hero-text-color: #ffffff;
+  color: #ffffff;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.leftPane {
+  flex: 1;
+  text-align: left;
+  z-index: 1;
+}
+
+.rightPane {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 300px;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  /* Brighter color for contrast on dark background */
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(102, 126, 234, 0.5);
+}
+
+.heroSubtitle {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 550px;
+  color: #e0e0e0;
 }
 
 .buttons {
   display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Thematic Icon Visual - Spec -> AI -> Book */
+.iconFlow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+.heroIcon {
+  position: relative;
+  filter: drop-shadow(0px 0px 25px rgba(102, 126, 234, 0.4));
+  animation: float 8s ease-in-out infinite;
+}
+
+.codeIcon {
+  width: 90px;
+  height: 90px;
+  color: var(--ifm-color-primary-light);
+  animation-delay: -4s;
+}
+
+.aiIcon {
+  width: 120px;
+  height: 120px;
+  color: var(--ifm-color-primary-lighter);
+  animation: glow 4s ease-in-out infinite;
+  z-index: 10;
+}
+
+.bookIcon {
+  width: 90px;
+  height: 90px;
+  color: var(--ifm-color-primary-lightest);
+  animation-delay: -2s;
+}
+
+/* New connecting lines */
+.connector {
+  position: absolute;
+  top: 50%;
+  left: 25%; /* Start from after the first icon */
+  width: 50%; /* Span across to the last icon */
+  height: 2px;
+  background: linear-gradient(90deg, var(--ifm-color-primary-light), var(--ifm-color-primary-lighter), var(--ifm-color-primary-lightest));
+  opacity: 0.3;
+  z-index: -1;
+}
+
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0px 0px 15px rgba(128, 148, 243, 0.4));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0px 0px 30px rgba(128, 148, 243, 0.8));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0px 0px 15px rgba(128, 148, 243, 0.4));
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+  .heroContainer {
+    flex-direction: column; /* Keep right pane content on top */
+  }
+  .leftPane {
+    text-align: center;
+    align-items: center;
+    order: 2; /* Text below icons */
+  }
+  .rightPane {
+    order: 1; /* Icons on top */
+    min-height: auto;
+    margin-bottom: 3rem;
+  }
+  .buttons {
+    justify-content: center;
+  }
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+  .iconFlow {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .connector {
+    display: none; /* Hide connector on mobile stack */
+  }
 }

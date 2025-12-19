@@ -1,0 +1,21 @@
+.mobileSidebarToggle {
+  color: var(--ifm-font-color-base);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.mobileSidebarToggle:hover {
+  color: var(--ifm-color-primary);
+}
+
+.iconMenu {
+  width: 24px;
+  height: 24px;
+}

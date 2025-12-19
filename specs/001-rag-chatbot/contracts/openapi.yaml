@@ -1,0 +1,502 @@
+openapi: 3.0.3
+info:
+  title: RAG Chatbot API
+  description: |
+    RESTful API for the RAG-based chatbot integrated into the AI-powered book.
+    Provides endpoints for querying the book content using natural language questions,
+    with support for both full-book search and selected-text-only modes.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://rag-backend.railway.app
+    description: Production server (Railway)
+  - url: http://localhost:8000
+    description: Local development server
+
+tags:
+  - name: Query
+    description: Question answering endpoints
+  - name: Health
+    description: Service health and monitoring
+
+paths:
+  /api/query:
+    post:
+      tags:
+        - Query
+      summary: Answer question using full book corpus
+      description: |
+        Query the entire book content using vector similarity search.
+        Retrieves top-k most relevant chunks and generates an answer based on them.
+        Optionally includes conversation history for follow-up questions.
+      operationId: queryFullBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            examples:
+              simple:
+                summary: Simple question
+                value:
+                  query: "What is Spec-Kit Plus?"
+              with_history:
+                summary: Follow-up question with context
+                value:
+                  query: "How do I install it?"
+                  conversation_history:
+                    - role: "user"
+                      content: "What is Spec-Kit Plus?"
+                    - role: "assistant"
+                      content: "Spec-Kit Plus is a structured workflow for AI-assisted development..."
+      responses:
+        '200':
+          description: Successful response with answer and sources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+              examples:
+                with_sources:
+                  summary: Answer with source citations
+                  value:
+                    answer: "Spec-Kit Plus is a structured workflow for AI-assisted development that uses commands like /sp.specify, /sp.plan, and /sp.tasks."
+                    sources:
+                      - chapter: "Chapter 1"
+                        section: "Introduction to Spec-Kit Plus"
+                        file: "chapter-1-spec-kit.md"
+                        url: "/docs/chapter-1-spec-kit#introduction"
+                        similarity_score: 0.92
+                    mode: "full_book"
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    response_time_ms: 1250
+                no_results:
+                  summary: No relevant information found
+                  value:
+                    answer: "I couldn't find information about that in this book."
+                    sources: []
+                    mode: "full_book"
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    response_time_ms: 850
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - ApiKeyAuth: []
+
+  /api/query/selected:
+    post:
+      tags:
+        - Query
+      summary: Answer question using only selected text
+      description: |
+        Answer questions based exclusively on user-selected text from the book.
+        No vector search is performed - the answer is constrained to the provided text only.
+        Useful for explaining specific paragraphs or passages.
+      operationId: querySelectedText
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuerySelectedRequest'
+            examples:
+              selected_text:
+                summary: Question about selected paragraph
+                value:
+                  query: "Can you explain this paragraph in simpler terms?"
+                  selected_text: "Spec-Kit Plus is a structured workflow for AI-assisted development. It uses commands like /sp.specify to create feature specifications, /sp.plan to generate implementation plans, and /sp.tasks to break down work into actionable steps."
+      responses:
+        '200':
+          description: Successful response based on selected text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+              examples:
+                selected_answer:
+                  summary: Answer from selected text
+                  value:
+                    answer: "Based on your selected text, this paragraph explains that Spec-Kit Plus is a workflow tool that helps with AI-assisted development. It provides three main commands: /sp.specify creates detailed descriptions of features, /sp.plan creates implementation guides, and /sp.tasks breaks the work into smaller, manageable pieces."
+                    sources: []
+                    mode: "selected_text"
+                    session_id: "550e8400-e29b-41d4-a716-446655440000"
+                    response_time_ms: 980
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+      security:
+        - ApiKeyAuth: []
+
+  /api/health:
+    get:
+      tags:
+        - Health
+      summary: Health check endpoint
+      description: |
+        Check the health status of the API and its dependencies.
+        Returns connection status for Qdrant, Neon Postgres, and OpenAI API.
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                healthy:
+                  summary: All services healthy
+                  value:
+                    status: "healthy"
+                    services:
+                      qdrant: "connected"
+                      neon: "connected"
+                      openai: "api_key_valid"
+                    version: "1.0.0"
+                    uptime_seconds: 3600
+        '503':
+          description: Service degraded or unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                degraded:
+                  summary: Some services unavailable
+                  value:
+                    status: "degraded"
+                    services:
+                      qdrant: "disconnected"
+                      neon: "connected"
+                      openai: "api_key_valid"
+                    version: "1.0.0"
+                    uptime_seconds: 3600
+
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 10
+          maxLength: 2000
+          description: User's natural language question about the book
+          example: "What is Spec-Kit Plus?"
+        query_mode:
+          type: string
+          enum: [full_book, selected_text]
+          default: full_book
+          description: Query mode (full_book or selected_text)
+        conversation_history:
+          type: array
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/ConversationTurn'
+          description: Previous conversation turns for context (max 10)
+          default: []
+        session_id:
+          type: string
+          format: uuid
+          description: Session identifier for grouping related queries
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        top_k:
+          type: integer
+          minimum: 3
+          maximum: 10
+          default: 5
+          description: Number of document chunks to retrieve
+          example: 5
+
+    QuerySelectedRequest:
+      type: object
+      required:
+        - query
+        - selected_text
+      properties:
+        query:
+          type: string
+          minLength: 10
+          maxLength: 2000
+          description: User's question about the selected text
+          example: "Can you explain this paragraph?"
+        selected_text:
+          type: string
+          minLength: 20
+          maxLength: 5000
+          description: Text selected by user (must be at least one sentence)
+          example: "Spec-Kit Plus is a structured workflow..."
+        session_id:
+          type: string
+          format: uuid
+          description: Session identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    ConversationTurn:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+          description: Role of the message sender
+          example: "user"
+        content:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          description: Message content
+          example: "What is Spec-Kit Plus?"
+
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - sources
+        - mode
+        - session_id
+        - response_time_ms
+      properties:
+        answer:
+          type: string
+          minLength: 20
+          maxLength: 2000
+          description: Generated answer to the user's question
+          example: "Spec-Kit Plus is a structured workflow for AI-assisted development..."
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceCitation'
+          description: Source citations from the book (empty if no sources found)
+          default: []
+        mode:
+          type: string
+          enum: [full_book, selected_text]
+          description: Query mode used
+          example: "full_book"
+        session_id:
+          type: string
+          format: uuid
+          description: Session identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        response_time_ms:
+          type: integer
+          minimum: 0
+          maximum: 10000
+          description: Processing time in milliseconds
+          example: 1250
+        confidence_score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Answer confidence score (optional, future feature)
+          example: 0.85
+
+    SourceCitation:
+      type: object
+      required:
+        - chapter
+        - file
+        - url
+        - similarity_score
+      properties:
+        chapter:
+          type: string
+          maxLength: 200
+          description: Chapter title or number
+          example: "Chapter 1"
+        section:
+          type: string
+          maxLength: 200
+          description: Section or subsection title (optional)
+          example: "Introduction to Spec-Kit Plus"
+        file:
+          type: string
+          pattern: '.*\.md$'
+          description: Source markdown filename
+          example: "chapter-1-spec-kit.md"
+        url:
+          type: string
+          pattern: '^/docs/.*'
+          description: Deep link to book section
+          example: "/docs/chapter-1-spec-kit#introduction"
+        similarity_score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Cosine similarity score (relevance)
+          example: 0.92
+        excerpt:
+          type: string
+          maxLength: 500
+          description: Text snippet from source chunk (optional)
+          example: "Spec-Kit Plus is a structured workflow for AI-assisted development..."
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - services
+        - version
+        - uptime_seconds
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+          description: Overall service health status
+          example: "healthy"
+        services:
+          type: object
+          required:
+            - qdrant
+            - neon
+            - openai
+          properties:
+            qdrant:
+              type: string
+              enum: [connected, disconnected, error]
+              description: Qdrant vector database connection status
+              example: "connected"
+            neon:
+              type: string
+              enum: [connected, disconnected, error]
+              description: Neon Postgres connection status
+              example: "connected"
+            openai:
+              type: string
+              enum: [api_key_valid, api_key_invalid, error]
+              description: OpenAI API key validation status
+              example: "api_key_valid"
+        version:
+          type: string
+          pattern: '^\d+\.\d+\.\d+$'
+          description: API version (semantic versioning)
+          example: "1.0.0"
+        uptime_seconds:
+          type: integer
+          minimum: 0
+          description: Service uptime in seconds
+          example: 3600
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error type/code
+          example: "INVALID_QUERY"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Query must be between 10 and 2000 characters"
+        details:
+          type: object
+          description: Additional error context (optional)
+          example:
+            field: "query"
+            constraint: "minLength"
+
+  responses:
+    BadRequest:
+      description: Invalid request (validation error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalid_query:
+              summary: Query too short
+              value:
+                error: "INVALID_QUERY"
+                message: "Query must be at least 10 characters"
+            missing_selected_text:
+              summary: Selected text missing
+              value:
+                error: "MISSING_FIELD"
+                message: "selected_text is required when query_mode is selected_text"
+
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            rate_limit:
+              summary: Too many requests
+              value:
+                error: "RATE_LIMIT_EXCEEDED"
+                message: "Rate limit of 100 requests per hour exceeded. Try again later."
+                details:
+                  retry_after_seconds: 1800
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            generic_error:
+              summary: Unexpected error
+              value:
+                error: "INTERNAL_ERROR"
+                message: "An unexpected error occurred. Please try again later."
+
+    ServiceUnavailable:
+      description: Service unavailable (dependency failure)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            qdrant_down:
+              summary: Vector database unavailable
+              value:
+                error: "SERVICE_UNAVAILABLE"
+                message: "Vector database is temporarily unavailable. Please try again later."
+            openai_down:
+              summary: OpenAI API unavailable
+              value:
+                error: "SERVICE_UNAVAILABLE"
+                message: "AI service is temporarily unavailable. Please try again later."
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: |
+        Optional API key for production environments.
+        Required if API_KEY environment variable is set on the server.
+        Omit this header for development/testing without authentication.
+
+security:
+  - ApiKeyAuth: []

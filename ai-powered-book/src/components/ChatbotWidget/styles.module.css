@@ -1,0 +1,256 @@
+/**
+ * Chatbot Widget Styles
+ */
+
+.chatbotContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.toggleButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.chatWindow {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 380px;
+  height: 500px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chatHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.messageList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #f8f9fa;
+}
+
+.message {
+  margin-bottom: 16px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userMessage {
+  text-align: right;
+}
+
+.userBubble {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 18px 18px 4px 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.assistantMessage {
+  text-align: left;
+}
+
+.assistantBubble {
+  display: inline-block;
+  background: white;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 18px 18px 18px 4px;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sources {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.sourceItem {
+  display: block;
+  color: #667eea;
+  text-decoration: none;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.sourceItem:hover {
+  background: #e0e0e0;
+  text-decoration: underline;
+}
+
+.inputContainer {
+  padding: 12px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  border: 1px solid #d0d0d0;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #667eea;
+}
+
+.sendButton {
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendButton:hover:not(:disabled) {
+  background: #5568d3;
+  transform: scale(1.05);
+}
+
+.sendButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.error {
+  background: #fee;
+  color: #c33;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px;
+  font-size: 13px;
+}
+
+.welcomeMessage {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+}
+
+.welcomeMessage h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .chatbotContainer {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .chatWindow {
+    width: 100vw;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0;
+    animation: fadeIn 0.3s ease-out; /* Replace slideUp with simple fade-in */
+  }
+
+  .toggleButton {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}

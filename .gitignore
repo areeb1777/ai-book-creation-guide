@@ -1,0 +1,39 @@
+# Node.js
+/ai-powered-book/node_modules
+/ai-powered-book/.docusaurus
+/ai-powered-book/build
+/ai-powered-book/.cache-loader
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+/rag-backend/venv
+/rag-backend/__pycache__
+/rag-backend/*.pyc
+/rag-backend/.pytest_cache
+/rag-backend/.mypy_cache
+/rag-backend/.venv
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docusaurus
+/ai-powered-book/.docusaurus
+/ai-powered-book/build
+
+# Temporary Gemini files
+/nul

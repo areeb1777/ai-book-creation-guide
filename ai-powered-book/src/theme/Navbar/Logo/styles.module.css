@@ -1,0 +1,34 @@
+.navbarLogoLink {
+  display: flex;
+  align-items: center;
+  height: var(--ifm-navbar-height);
+  padding: 0 1rem;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ifm-font-color-base);
+  transition: color 0.2s ease-in-out;
+}
+
+.navbarLogoLink:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.navbarLogoImage {
+  margin-right: 0.5rem;
+  height: 32px; /* Adjust as needed */
+  width: 32px; /* Adjust as needed */
+  transition: transform 0.2s ease-in-out;
+}
+
+.navbarLogoImage:hover {
+  transform: scale(1.05);
+}
+
+.navbarLogoTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Limit title width */
+}
