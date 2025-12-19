@@ -1,183 +1,265 @@
-# RAG Chatbot Backend
+# RAG Chatbot Backend - Vercel Deployment
 
-FastAPI backend for the RAG-based chatbot that answers questions about book content.
+Production-ready FastAPI backend for RAG (Retrieval-Augmented Generation) chatbot, optimized for Vercel serverless deployment.
 
-## Quick Start
+## 🚀 Quick Deploy to Vercel
 
-### 1. Setup Virtual Environment
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/areeb1777/ai-book-creation-guide)
 
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate (Windows)
-venv\Scripts\activate
-
-# Activate (macOS/Linux)
-source venv/bin/activate
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure Environment
-
-```bash
-# Copy example env file
-cp .env.example .env
-
-# Edit .env and add your API keys
-# See SETUP_GUIDE.md for detailed instructions
-```
-
-### 4. Run Development Server
-
-```bash
-# Option 1: Using uvicorn directly
-uvicorn app.main:app --reload --port 8000
-
-# Option 2: Using Python
-python -m app.main
-```
-
-### 5. Test the API
-
-Open your browser and visit:
-- API: http://localhost:8000
-- Interactive Docs: http://localhost:8000/docs
-- Health Check: http://localhost:8000/api/health
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 rag-backend/
+├── api/
+│   └── index.py          # Vercel serverless entry point
 ├── app/
-│   ├── __init__.py
-│   ├── main.py              # FastAPI app entry point
 │   ├── api/
-│   │   ├── routes/          # API endpoints
-│   │   └── models/          # Pydantic request/response models
+│   │   ├── models/       # Pydantic request/response models
+│   │   └── routes/       # API endpoints
 │   ├── core/
-│   │   ├── config.py        # Configuration management
-│   │   ├── logging.py       # Logging setup
-│   │   └── security.py      # Security utilities
+│   │   ├── config.py     # Settings and configuration
+│   │   ├── logging.py    # Logging setup
+│   │   └── security.py   # Rate limiting and authentication
 │   ├── services/
-│   │   ├── embeddings.py    # OpenAI embeddings
-│   │   ├── vector_store.py  # Qdrant client
-│   │   ├── query_pipeline.py # RAG orchestration
-│   │   ├── answer_generator.py # Answer generation
-│   │   └── metadata_store.py # Neon Postgres client
+│   │   ├── embeddings.py        # Embedding generation
+│   │   ├── gemini_service.py    # Google Gemini integration
+│   │   ├── vector_store.py      # Qdrant vector database
+│   │   ├── metadata_store.py    # Postgres metadata storage
+│   │   ├── query_pipeline.py    # RAG query orchestration
+│   │   └── answer_generator.py  # Response generation
 │   └── utils/
-│       ├── chunking.py      # Document chunking
-│       └── markdown_parser.py # Markdown parsing
-├── ingestion/
-│   ├── ingest.py            # Main ingestion script
-│   └── chunk_strategy.py    # Chunking strategies
-├── scripts/
-│   ├── setup_qdrant.py      # Initialize Qdrant collection
-│   ├── setup_neon.py        # Initialize Neon database
-│   └── run_ingestion.py     # Run ingestion pipeline
-├── tests/
-│   ├── unit/                # Unit tests
-│   ├── integration/         # Integration tests
-│   └── contract/            # API contract tests
-├── requirements.txt         # Production dependencies
-├── requirements-dev.txt     # Development dependencies
-├── .env.example             # Environment variable template
-└── README.md                # This file
+│       ├── chunking.py          # Text chunking strategies
+│       └── markdown_parser.py   # Markdown parsing
+├── ingestion/            # Data ingestion scripts (local use)
+├── scripts/              # Setup and utility scripts (local use)
+├── tests/                # Unit and integration tests
+├── requirements.txt      # Python dependencies
+├── vercel.json          # Vercel configuration
+└── .vercelignore        # Files to exclude from deployment
 ```
 
-## Development Workflow
+## 🎯 Features
 
-### Phase 1: Setup (Current)
-- ✅ Project structure created
-- ✅ Dependencies installed
-- ✅ Basic FastAPI app running
-- ⏳ External services configuration
+- **100% FREE** Google Gemini API for embeddings and chat
+- **Serverless** architecture on Vercel (auto-scaling)
+- **Vector Search** using Qdrant Cloud
+- **Metadata Storage** with Neon Postgres
+- **Rate Limiting** and API key authentication
+- **CORS** configuration for frontend integration
+- **Interactive API Docs** (Swagger/OpenAPI)
+- **Health Checks** for monitoring
 
-### Phase 2: Foundational Infrastructure
-- Database schemas
-- Service clients (Qdrant, Neon, OpenAI)
-- Health check endpoint
+## 🛠️ Technology Stack
 
-### Phase 3: MVP (User Story 1)
-- Document ingestion pipeline
-- RAG query pipeline
-- Frontend chatbot widget
+- **Framework**: FastAPI
+- **Serverless Adapter**: Mangum
+- **Vector Database**: Qdrant Cloud
+- **Metadata Database**: Neon Postgres (Serverless)
+- **Embeddings & Chat**: Google Gemini API (FREE)
+- **Deployment**: Vercel
 
-## Testing
+## 📋 Prerequisites
+
+1. **Vercel Account** - [Sign up](https://vercel.com)
+2. **Google Gemini API Key** - [Get API Key](https://makersuite.google.com/app/apikey) (FREE)
+3. **Qdrant Cloud** - [Sign up](https://cloud.qdrant.io) (Free tier)
+4. **Neon Postgres** - [Sign up](https://neon.tech) (Free tier)
+
+## 🚀 Deployment
+
+### Step 1: Deploy to Vercel
+
+1. Click the **"Deploy with Vercel"** button above, or:
+2. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+3. Click **"Add New"** → **"Project"**
+4. Import your GitHub repository
+5. Set **Root Directory** to `rag-backend`
+6. Add environment variables (see below)
+7. Click **Deploy**
+
+### Step 2: Configure Environment Variables
+
+Add these in Vercel Dashboard → Project → Settings → Environment Variables:
+
+```bash
+# Required
+GEMINI_API_KEY=your-gemini-api-key
+QDRANT_URL=https://your-cluster.gcp.cloud.qdrant.io:6333
+QDRANT_API_KEY=your-qdrant-api-key
+QDRANT_COLLECTION_NAME=book_chunks
+DATABASE_URL=postgresql://user:pass@host/db?sslmode=require
+API_KEY=your-chosen-api-key
+
+# Optional
+CORS_ORIGINS=https://your-frontend.vercel.app
+ENVIRONMENT=production
+LOG_LEVEL=INFO
+```
+
+### Step 3: Initialize Vector Database
+
+Run locally to ingest your book content:
+
+```bash
+# Setup
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Create .env with your credentials
+cp .env.example .env
+
+# Run ingestion
+python scripts/run_ingestion.py
+```
+
+## 📚 API Documentation
+
+Once deployed, visit:
+- **Swagger UI**: `https://your-project.vercel.app/api/docs`
+- **ReDoc**: `https://your-project.vercel.app/api/redoc`
+- **OpenAPI JSON**: `https://your-project.vercel.app/api/openapi.json`
+
+### Endpoints
+
+#### Health Check
+```bash
+GET /api/health
+```
+
+#### Query Full Book
+```bash
+POST /api/query
+{
+  "query": "What is SpecKit?",
+  "session_id": "user-123",
+  "top_k": 5,
+  "conversation_history": []
+}
+```
+
+#### Query Selected Text
+```bash
+POST /api/query/selected
+{
+  "query": "Explain this",
+  "selected_text": "The context to search within",
+  "session_id": "user-123"
+}
+```
+
+## 🧪 Testing
+
+### Test Locally
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run development server
+uvicorn app.main:app --reload --port 8000
+```
+
+Visit: http://localhost:8000/api/docs
+
+### Run Tests
 
 ```bash
 # Install dev dependencies
 pip install -r requirements-dev.txt
 
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=app tests/
-
-# Run specific test file
-pytest tests/unit/test_chunking.py -v
+# Run tests
+pytest tests/
 ```
 
-## Code Quality
+## 🔐 Authentication
 
+API supports two authentication methods:
+
+1. **API Key** (via `X-API-Key` header)
+   ```bash
+   curl -H "X-API-Key: your-api-key" https://api.vercel.app/api/query
+   ```
+
+2. **Rate Limiting** (default: 100 requests/hour per IP)
+
+## 📊 Monitoring
+
+### Vercel Dashboard
+- View logs: Project → Deployments → Logs
+- Monitor performance: Analytics tab
+- Check errors: Error Analytics
+
+### Health Check
+Monitor uptime using:
 ```bash
-# Format code
-black app/ ingestion/ tests/
-
-# Check linting
-flake8 app/ ingestion/ tests/
-
-# Sort imports
-isort app/ ingestion/ tests/
-
-# Type checking
-mypy app/ ingestion/
+curl https://your-project.vercel.app/api/health
 ```
 
-## Deployment
+## 🔧 Configuration
 
-See SETUP_GUIDE.md for detailed deployment instructions to Railway.
+### Adjust Rate Limits
+Edit `app/core/security.py`:
+```python
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["100/hour"]  # Change this
+)
+```
 
-## Environment Variables
-
-Required variables (see .env.example for template):
-
-- `OPENAI_API_KEY`: OpenAI API key for embeddings and chat
-- `QDRANT_URL`: Qdrant Cloud cluster URL
-- `QDRANT_API_KEY`: Qdrant Cloud API key
-- `DATABASE_URL`: Neon Postgres connection string
-- `CORS_ORIGINS`: Comma-separated allowed origins
-- `RATE_LIMIT_PER_HOUR`: Rate limit per IP (default: 100)
-
-## Troubleshooting
-
-### "Module not found" errors
+### Modify CORS Origins
+Set in environment variables:
 ```bash
-# Ensure virtual environment is activated
-# Reinstall dependencies
-pip install -r requirements.txt
+CORS_ORIGINS=https://domain1.com,https://domain2.com
 ```
 
-### "Connection refused" errors
-```bash
-# Verify external services are accessible
-# Check .env file has correct credentials
-# Test with health endpoint: GET /api/health
-```
+## 🐛 Troubleshooting
 
-### Port 8000 already in use
-```bash
-# Use different port
-uvicorn app.main:app --reload --port 8001
-```
+### Connection Errors
+- Verify all environment variables are set
+- Check Qdrant cluster is running
+- Ensure Neon database is active
 
-## Support
+### Timeout Issues
+- Reduce `top_k` parameter (fewer chunks)
+- Optimize chunk size in ingestion
+- Use caching for frequent queries
 
-For detailed setup instructions, see SETUP_GUIDE.md
-For implementation tasks, see ../specs/001-rag-chatbot/tasks.md
+### CORS Errors
+- Add your frontend URL to `CORS_ORIGINS`
+- Redeploy backend after changes
+
+## 💰 Cost (FREE!)
+
+- **Vercel**: Free tier (100GB bandwidth, 100h execution/month)
+- **Gemini API**: FREE (15 req/min, 1500 req/day)
+- **Qdrant**: Free tier (1GB)
+- **Neon**: Free tier (3GB storage)
+
+**Total: $0/month** within free tiers
+
+## 📖 Full Documentation
+
+See [VERCEL_DEPLOYMENT_GUIDE.md](../VERCEL_DEPLOYMENT_GUIDE.md) for detailed setup instructions.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see LICENSE file
+
+## 🙋 Support
+
+- Issues: [GitHub Issues](https://github.com/areeb1777/ai-book-creation-guide/issues)
+- Documentation: [Full Deployment Guide](../VERCEL_DEPLOYMENT_GUIDE.md)
+- API Docs: `/api/docs` on your deployment
+
+---
+
+**Happy deploying!** 🚀

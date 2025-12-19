@@ -34,3 +34,6 @@ tiktoken==0.5.2
 
 # Additional utilities
 python-multipart==0.0.9
+
+# Vercel serverless adapter
+mangum==0.17.0
