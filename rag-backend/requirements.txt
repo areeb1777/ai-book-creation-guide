@@ -37,3 +37,7 @@ python-multipart==0.0.9
 
 # Vercel serverless adapter
 mangum==0.17.0
+
+# Additional dependencies for robust deployment
+pydantic==2.5.3
+typing-extensions==4.8.0

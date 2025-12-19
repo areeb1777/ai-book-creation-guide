@@ -1,12 +1,14 @@
 """
-RAG Chatbot API - Main Application Entry Point
+RAG Chatbot API - Main Application Entry Point for Vercel Deployment
 
 This FastAPI application provides endpoints for the RAG-based chatbot
 that answers questions about book content using vector similarity search.
+Designed for Vercel serverless deployment with Mangum adapter.
 """
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 from dotenv import load_dotenv
 from app.core.config import settings
 from app.core.logging import setup_logging
@@ -26,27 +28,28 @@ app = FastAPI(
     title="RAG Chatbot API",
     description="API for book Q&A chatbot using Retrieval-Augmented Generation",
     version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
+    docs_url="/docs",  # Access docs at /docs
+    redoc_url="/redoc",  # Access redoc at /redoc
+    openapi_url="/openapi.json"  # Access openapi schema at /openapi.json
 )
 
 # Add rate limiter state
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Configure CORS
+# Configure CORS - Allow all origins for Vercel (configure more restrictively in production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.get_cors_origins_list(),
+    allow_origins=["*"],  # For Vercel deployment - restrict in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Include routers
-app.include_router(health.router, tags=["Health"])
-app.include_router(query.router, tags=["Query"])
-app.include_router(query_selected.router, tags=["Query"])
+app.include_router(health.router, prefix="", tags=["Health"])
+app.include_router(query.router, prefix="", tags=["Query"])
+app.include_router(query_selected.router, prefix="", tags=["Query"])
 
 @app.get("/")
 async def root():
@@ -58,10 +61,14 @@ async def root():
         "docs": "/docs"
     }
 
+# Create Mangum handler for Vercel serverless functions
+handler = Mangum(app, lifespan="auto")
+
+# This allows the application to run locally with uvicorn
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "app.main:app",
+        "main:app",
         host="0.0.0.0",
         port=8000,
         reload=True,
