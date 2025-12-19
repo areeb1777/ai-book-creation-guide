@@ -1,0 +1,47 @@
+.navbarInner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.navbarItems {
+  display: flex;
+  align-items: center;
+  list-style: none; /* Remove default list styling */
+  margin: 0;
+  padding: 0;
+}
+
+.navbarItems--right {
+  margin-left: auto; /* Push right items to the right */
+}
+
+.colorModeToggle {
+  margin-left: 1rem;
+}
+
+/* Ensure NavbarItem components are properly styled */
+.navbarItem {
+  margin-right: 1.5rem;
+  font-weight: 500;
+}
+.navbarItem:last-child {
+  margin-right: 0;
+}
+
+.navbarItemLink {
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  transition: all 0.2s ease-in-out;
+}
+
+.navbarItemLink:hover {
+  color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-gray-100);
+}
+
+[data-theme='dark'] .navbarItemLink:hover {
+  background-color: var(--ifm-color-gray-800);
+}

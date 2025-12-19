@@ -1,0 +1,71 @@
+.docItemCol {
+  margin: 0 auto;
+  max-width: 800px; /* Optimal width for reading */
+}
+
+.docItemContainer {
+  padding: 2rem 0;
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-background-color);
+}
+
+.docItemContainer article > :first-child {
+  margin-top: 0;
+}
+
+.docItemContainer h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.docItemContainer h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--ifm-color-gray-200);
+  padding-bottom: 0.5rem;
+}
+[data-theme='dark'] .docItemContainer h2 {
+  border-bottom-color: var(--ifm-color-gray-800);
+}
+
+.docItemContainer h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.docItemContainer p,
+.docItemContainer li,
+.docItemContainer ul,
+.docItemContainer ol {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.docItemContainer blockquote {
+  background-color: var(--ifm-color-gray-100);
+  border-left-color: var(--ifm-color-primary);
+  border-left-width: 4px;
+  padding: 1rem 1.5rem;
+  border-radius: 0 var(--ifm-global-radius) var(--ifm-global-radius) 0;
+}
+
+[data-theme='dark'] .docItemContainer blockquote {
+  background-color: var(--ifm-color-gray-900);
+}
+
+/* TOC Styling */
+.toc {
+  font-size: 0.9rem;
+  padding: 1.5rem;
+  background-color: var(--ifm-color-gray-100);
+  border-radius: var(--ifm-global-radius);
+}
+
+[data-theme='dark'] .toc {
+  background-color: var(--ifm-color-gray-900);
+}

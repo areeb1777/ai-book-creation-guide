@@ -1,11 +1,77 @@
 .features {
+  padding: 4rem 0;
+  background-color: var(--ifm-background-color);
+}
+
+.featureCard {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  padding: 2rem;
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-gray-200);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  height: 100%; /* Ensure cards are same height */
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--ifm-color-primary-light);
+}
+
+[data-theme='dark'] .featureCard {
+  border: 1px solid var(--ifm-color-gray-800);
+  background-color: var(--ifm-color-gray-900);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='dark'] .featureCard:hover {
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 80px;
+  width: 80px;
+  margin-bottom: 1.5rem;
+  color: var(--ifm-color-primary);
+  transition: transform 0.3s ease-in-out;
 }
+
+.featureCard:hover .featureSvg {
+  transform: scale(1.1);
+}
+
+.featureCard h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-heading-color);
+}
+
+.featureCard p {
+  font-size: 1rem;
+  color: var(--ifm-font-color-base);
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 996px) {
+  .features {
+    padding: 2rem 0;
+  }
+  .featureCard {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+  }
+  .featureSvg {
+    height: 60px;
+    width: 60px;
+  }
+  .featureCard h3 {
+    font-size: 1.25rem;
+  }
+}
+
