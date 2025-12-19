@@ -5,8 +5,11 @@ uvicorn[standard]==0.27.0
 # OpenAI SDK
 openai==1.10.0
 
-# Vector database
-qdrant-client==1.7.0
+# Google Gemini SDK (FREE embeddings and chat)
+google-generativeai==0.8.6
+
+# Vector database (updated to fix protobuf compatibility)
+qdrant-client==1.12.1
 
 # PostgreSQL adapter
 psycopg2-binary==2.9.9
