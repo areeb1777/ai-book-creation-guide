@@ -1,17 +1,28 @@
-/* Hero Section Styles - Thematic Redesign */
+/* Hero Section Styles - Theme Adaptive Background */
 .heroBanner {
   padding: 6rem 2rem;
   position: relative;
   overflow: hidden;
-  /* Using theme variables for a dark, thematic background */
-  background-color: #1a1a1a;
+  /* Adaptive background that responds to theme */
+  background-color: var(--ifm-background-color);
   background-image:
-    radial-gradient(var(--ifm-color-primary-darkest), transparent 1px),
-    radial-gradient(var(--ifm-color-primary-dark), transparent 1px);
-  background-size: 40px 40px, 40px 40px;
-  background-position: 0 0, 20px 20px;
+    radial-gradient(at 20% 20%, color-mix(in srgb, var(--ifm-color-primary) 15%, transparent), transparent 50%),
+    radial-gradient(at 80% 80%, color-mix(in srgb, var(--ifm-color-primary) 10%, transparent), transparent 50%);
+  background-size: 300px 300px;
+  background-position: 0 0, 100% 100%;
+  --ifm-hero-text-color: var(--ifm-font-color-base);
+  color: var(--ifm-font-color-base);
+  transition: all 0.5s ease;
+}
+
+/* Dark theme specific styling */
+[data-theme='dark'] .heroBanner {
+  background-color: #0f172a;
+  background-image:
+    radial-gradient(at 20% 20%, color-mix(in srgb, var(--ifm-color-primary) 20%, #000000), transparent 70%),
+    radial-gradient(at 80% 80%, color-mix(in srgb, var(--ifm-color-primary) 15%, #000000), transparent 70%);
   --ifm-hero-text-color: #ffffff;
-  color: #ffffff;
+  color: #e2e8f0;
 }
 
 .heroContainer {
@@ -43,7 +54,11 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 1.5rem;
-  /* Brighter color for contrast on dark background */
+  color: var(--ifm-heading-color);
+  transition: color 0.3s ease;
+}
+
+[data-theme='dark'] .heroTitle {
   color: #ffffff;
   text-shadow: 0 2px 20px rgba(102, 126, 234, 0.5);
 }
@@ -53,7 +68,13 @@
   line-height: 1.6;
   margin-bottom: 2rem;
   max-width: 550px;
-  color: #e0e0e0;
+  color: var(--ifm-font-color-base);
+  opacity: 0.9;
+  transition: color 0.3s ease;
+}
+
+[data-theme='dark'] .heroSubtitle {
+  color: #e2e8f0;
 }
 
 .buttons {

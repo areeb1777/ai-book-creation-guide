@@ -102,6 +102,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/about',
+            label: 'About',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/your-username/ai-powered-book',
             label: 'GitHub',
             position: 'right',

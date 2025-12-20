@@ -1,46 +1,57 @@
+# Dependencies
+node_modules/
+
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.so
 .Python
-venv/
-env/
-ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
-
-# Testing
-tests/
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Development
-scripts/
-ingestion/
-requirements-dev.txt
-
-# Docker (not needed for Vercel)
-Dockerfile
-.dockerignore
-railway.json
-
-# Documentation
-*.md
-!README.md
-
-# Environment
-.env
-.env.*
-
-# Logs
-*.log
-logs/
+.installed.cfg
+*.egg
 
 # IDE
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
 
-# Git
-.git/
-.gitignore
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.dev
+.env.testing
+
+# Tests
+test/
+tests/
+testing/
+
+# Documentation
+docs/
+
+# Backup files
+*.bak
+*.tmp

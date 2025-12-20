@@ -1,12 +1,14 @@
 .footer {
-  background-color: #1a1a1a; /* Dark background */
+  background-color: var(--ifm-footer-background-color, var(--ifm-background-surface-color));
   padding: 4rem 2rem;
-  color: #e0e0e0;
+  color: var(--ifm-font-color-base);
   font-size: 0.95rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 [data-theme='dark'] .footer {
-  background-color: var(--ifm-background-color); /* Use global dark background */
+  background-color: var(--ifm-footer-background-color, #1a1a1a);
+  color: var(--ifm-font-color-base);
 }
 
 .footerContainer {
@@ -40,14 +42,33 @@
 
 .footerDescription {
   line-height: 1.6;
-  color: #b0b0b0;
+  color: var(--ifm-color-gray-600);
+  margin: 0.5rem 0;
+  max-width: 400px;
+}
+
+[data-theme='dark'] .footerDescription {
+  color: var(--ifm-color-gray-400);
 }
 
 .footerHeading {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #ffffff;
+  color: var(--ifm-heading-color);
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footerHeading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--ifm-color-primary);
+  border-radius: 2px;
 }
 
 .footerLinkList {
@@ -61,21 +82,44 @@
 }
 
 .footerLink {
-  color: #b0b0b0;
+  color: var(--ifm-font-color-base);
   text-decoration: none;
-  transition: color 0.2s ease-in-out;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: block;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.footerLink::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--ifm-color-primary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
 }
 
 .footerLink:hover {
   color: var(--ifm-color-primary);
-  text-decoration: underline;
+  transform: translateX(5px);
+}
+
+.footerLink:hover::before {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .footerBottom {
-  border-top: 1px solid var(--ifm-color-gray-800);
+  border-top: 1px solid var(--ifm-toc-border-color);
   padding-top: 2rem;
   text-align: center;
-  color: #888888;
+  color: var(--ifm-color-gray-600);
+  font-size: 0.85rem;
+}
+
+[data-theme='dark'] .footerBottom {
+  color: var(--ifm-color-gray-400);
 }
 
 @media (max-width: 768px) {
@@ -87,5 +131,9 @@
   }
   .footerSection:first-child {
     flex: unset;
+  }
+
+  .footerDescription {
+    max-width: 100%;
   }
 }

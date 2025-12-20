@@ -8,8 +8,26 @@
   height: var(--ifm-navbar-height);
   display: flex;
   align-items: center;
-  transition: transform 0.2s ease-in-out;
-  backdrop-filter: blur(5px); /* Subtle blur effect */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  padding: 0 1rem;
+}
+
+[data-theme='dark'] .navbarLayout {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.navbarLayoutScrolled {
+  box-shadow: var(--ifm-global-shadow-md);
+  background-color: color-mix(in srgb, var(--ifm-navbar-background-color) 95%, black);
+  backdrop-filter: blur(15px);
+  height: calc(var(--ifm-navbar-height) - 10px);
+}
+
+[data-theme='dark'] .navbarLayoutScrolled {
+  box-shadow: var(--ifm-global-shadow-lg);
+  background-color: color-mix(in srgb, var(--ifm-navbar-background-color) 95%, white);
 }
 
 .navbarHidden {
@@ -21,17 +39,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 var(--ifm-spacing-horizontal);
+  padding: 0 0.5rem;
   max-width: var(--ifm-container-width);
   margin: 0 auto;
+  height: 100%;
 }
 
 /* Mobile Sidebar Specific Styling */
 .navbarSidebar {
   background-color: var(--ifm-background-color);
-  z-index: var(--ifm-z-index-fixed); /* Ensure it's above other content */
+  z-index: var(--ifm-z-index-fixed);
 }
 
 .navbarSidebarBackdrop {
-  background-color: rgba(0, 0, 0, 0.5); /* Darker backdrop */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Enhanced responsive behavior */
+@media (max-width: 996px) {
+  .navbarLayout {
+    height: 60px;
+    padding: 0 0.75rem;
+    background-color: color-mix(in srgb, var(--ifm-navbar-background-color) 98%, black);
+  }
+
+  [data-theme='dark'] .navbarLayout {
+    background-color: color-mix(in srgb, var(--ifm-navbar-background-color) 98%, white);
+  }
 }

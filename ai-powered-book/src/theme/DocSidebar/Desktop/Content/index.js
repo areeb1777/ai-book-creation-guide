@@ -11,14 +11,18 @@ import styles from './styles.module.css';
 function useShowAnnouncementBar() {
   const {isActive} = useAnnouncementBar();
   const [showAnnouncementBar, setShowAnnouncementBar] = useState(isActive);
-  useScrollPosition(
-    ({scrollY}) => {
-      if (isActive) {
-        setShowAnnouncementBar(scrollY === 0);
-      }
-    },
-    [isActive],
-  );
+
+  React.useEffect(() => {
+    if (!isActive || typeof window === 'undefined') return;
+
+    const handleScroll = () => {
+      setShowAnnouncementBar(window.scrollY === 0);
+    };
+
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isActive]);
+
   return isActive && showAnnouncementBar;
 }
 export default function DocSidebarDesktopContent({path, sidebar, className}) {

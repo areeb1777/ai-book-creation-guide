@@ -4,6 +4,8 @@
   margin: 0 auto;
   padding: 2rem var(--ifm-spacing-horizontal);
   min-height: calc(100vh - 200px);
+  background-color: var(--ifm-background-color);
+  transition: background-color 0.3s ease;
 }
 
 .breadcrumbContainer {
@@ -19,6 +21,7 @@
   padding: 0.75rem 1rem;
   border-radius: var(--ifm-global-radius);
   border-left: 3px solid var(--ifm-color-primary);
+  box-shadow: var(--ifm-global-shadow-sm);
 }
 
 .breadcrumbItem {
@@ -74,6 +77,10 @@
   height: fit-content;
   max-height: calc(100vh - 8rem);
   overflow-y: auto;
+  background-color: var(--ifm-background-surface-color);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.5rem;
+  box-shadow: var(--ifm-global-shadow-sm);
 }
 
 @media (min-width: 997px) {
@@ -85,6 +92,10 @@
 .mainContent {
   grid-area: main;
   max-width: 100%;
+  background-color: var(--ifm-background-color);
+  padding: 1.5rem;
+  border-radius: var(--ifm-global-radius);
+  transition: background-color 0.3s ease;
 }
 
 .docHeader {
@@ -94,6 +105,7 @@
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--ifm-border-color);
+  transition: border-color 0.3s ease;
 }
 
 .docTitle {
@@ -102,6 +114,7 @@
   font-weight: 800;
   color: var(--ifm-heading-color);
   line-height: 1.2;
+  transition: color 0.3s ease;
 }
 
 .editLink {
@@ -112,12 +125,16 @@
   text-decoration: none;
   border-radius: var(--ifm-global-radius);
   font-size: 0.875rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 1px solid var(--ifm-color-gray-200);
 }
 
 .editLink:hover {
   background-color: var(--ifm-color-primary);
   color: white;
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-md);
 }
 
 .contentWrapper {
@@ -132,6 +149,10 @@
   max-height: calc(100vh - 8rem);
   overflow-y: auto;
   padding-left: 2rem;
+  background-color: var(--ifm-background-surface-color);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.5rem;
+  box-shadow: var(--ifm-global-shadow-sm);
 }
 
 .tocTitle {
@@ -153,6 +174,7 @@
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--ifm-border-color);
+  transition: border-color 0.3s ease;
 }
 
 .chapterNavButtons {
@@ -167,26 +189,32 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background-color: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-border-color);
+  border: 1px solid var(--ifm-color-gray-200);
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-font-color-base);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   font-weight: 500;
+  box-shadow: var(--ifm-global-shadow-sm);
 }
 
 .navButton:hover {
   background-color: var(--ifm-color-primary);
   color: white;
   border-color: var(--ifm-color-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--ifm-global-shadow-md);
+  transform: translateY(-3px);
+  box-shadow: var(--ifm-global-shadow-lg);
 }
 
 .navArrow {
   font-size: 1.2rem;
   line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.navButton:hover .navArrow {
+  transform: scale(1.1);
 }
 
 /* Responsive adjustments */
@@ -224,6 +252,7 @@
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--ifm-border-color);
   color: var(--ifm-heading-color);
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .contentWrapper h3 {
@@ -231,11 +260,14 @@
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   color: var(--ifm-heading-color);
+  transition: color 0.3s ease;
 }
 
 .contentWrapper p {
   margin-bottom: 1.5rem;
   line-height: 1.7;
+  color: var(--ifm-font-color-base);
+  transition: color 0.3s ease;
 }
 
 .contentWrapper ul,
@@ -247,21 +279,28 @@
 .contentWrapper li {
   margin-bottom: 0.5rem;
   line-height: 1.6;
+  color: var(--ifm-font-color-base);
+  transition: color 0.3s ease;
 }
 
 .contentWrapper blockquote {
   border-left: 4px solid var(--ifm-color-primary);
-  background-color: var(--ifm-background-surface-color);
+  background-color: color-mix(in srgb, var(--ifm-color-primary) 5%, transparent);
   padding: 1rem 1.5rem;
   margin: 1.5rem 0;
   border-radius: 0 var(--ifm-global-radius) var(--ifm-global-radius) 0;
+  border: 1px solid var(--ifm-color-gray-200);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Code block styling */
 .contentWrapper pre {
-  border-radius: var(--ifm-code-border-radius);
+  border-radius: var(--ifm-global-radius);
   margin: 1.5rem 0;
   overflow-x: auto;
+  background-color: var(--ifm-code-background);
+  border: 1px solid var(--ifm-color-gray-200);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .contentWrapper code {
@@ -277,6 +316,8 @@
   border-radius: var(--ifm-global-radius);
   overflow: hidden;
   box-shadow: var(--ifm-global-shadow-md);
+  background-color: var(--ifm-background-color);
+  transition: background-color 0.3s ease;
 }
 
 .contentWrapper th,
@@ -284,10 +325,12 @@
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid var(--ifm-border-color);
+  transition: border-color 0.3s ease;
 }
 
 .contentWrapper th {
   background-color: var(--ifm-background-surface-color);
   font-weight: 600;
   color: var(--ifm-heading-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
