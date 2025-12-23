@@ -16,7 +16,8 @@
       "Bash(git push:*)",
       "Bash(python test_routes.py)",
       "Bash(python test_vercel.py)",
-      "Bash(python verify_backend.py)"
+      "Bash(python verify_backend.py)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nPrepare backend for Koyeb deployment - 100% FREE alternative\n\nChanges:\n- Add Dockerfile optimized for Koyeb\n- Add .koyeb.yml configuration\n- Add .dockerignore for lightweight image\n- Add start.sh script for proper startup\n- Remove Vercel-specific files \\(vercel.json, api/, package.json\\)\n- Remove old setup guide\n- Add comprehensive Koyeb deployment guide\n\nBackend is now ready for FREE deployment on Koyeb with:\n- No cold starts\n- Always running\n- Easy GitHub integration\n- Better performance than serverless\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

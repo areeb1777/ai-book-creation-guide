@@ -1,9 +1,9 @@
 """
-RAG Chatbot API - Main Application Entry Point for Railway Deployment
+RAG Chatbot API - Main Application Entry Point for Hugging Face Spaces
 
 This FastAPI application provides endpoints for the RAG-based chatbot
 that answers questions about book content using vector similarity search.
-Optimized for Railway deployment with persistent connections.
+Optimized for Hugging Face Spaces deployment.
 """
 
 from fastapi import FastAPI
@@ -56,11 +56,12 @@ import_routes()
 async def root():
     """Root endpoint - API status"""
     return {
-        "message": "RAG Chatbot API",
+        "message": "AI Book RAG Chatbot API",
         "status": "running",
         "version": "1.0.0",
         "docs": "/docs",
-        "environment": os.getenv("RAILWAY_ENVIRONMENT", "development")
+        "deployment": "Hugging Face Spaces",
+        "environment": os.getenv("SPACE_ID", "local")
     }
 
 # This allows the application to run locally with uvicorn
@@ -69,7 +70,7 @@ if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000)),
+        port=int(os.environ.get("PORT", 7860)),
         reload=True,
         log_level="info"
     )

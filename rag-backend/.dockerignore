@@ -1,9 +1,11 @@
-# Python
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+# Virtual environment
 venv/
 env/
 ENV/
@@ -13,7 +15,9 @@ ENV/
 .pytest_cache/
 .coverage
 htmlcov/
-*.log
+tests/
+test_*.py
+verify_*.py
 
 # IDE
 .vscode/
@@ -25,26 +29,26 @@ htmlcov/
 .git/
 .gitignore
 
-# Documentation
-*.md
-!README.md
-
-# Test files
-test_*.py
-verify_*.py
-tests/
-
 # Environment
 .env
 .env.*
 !.env.example
+
+# Logs
+*.log
 
 # Build
 build/
 dist/
 *.egg-info/
 
-# Vercel specific (not needed for Koyeb)
-vercel.json
-api/
-package.json
+# Documentation (except README)
+*.md
+!README.md
+
+# Development requirements
+requirements-dev.txt
+
+# Scripts
+scripts/
+ingestion/

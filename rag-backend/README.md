@@ -1,13 +1,32 @@
-# RAG Chatbot Backend
+---
+title: AI Book RAG Backend
+emoji: 📚
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+license: mit
+app_port: 7860
+---
 
-This is a FastAPI backend for a RAG (Retrieval-Augmented Generation) chatbot that answers questions about book content using vector similarity search. It's configured for deployment on Vercel.
+# AI Book RAG Backend
+
+A FastAPI-based RAG (Retrieval-Augmented Generation) backend for an AI-powered book Q&A chatbot.
+
+## Features
+
+- 🔍 Vector similarity search using Qdrant
+- 💬 Q&A using Google Gemini API
+- 📊 PostgreSQL metadata storage
+- 🚀 FastAPI for high performance
+- 🔒 Rate limiting and security
 
 ## Project Structure
 
 ```
 rag-backend/
 ├── app/
-│   ├── main.py              # Main application entry point (Vercel deployment)
+│   ├── main.py              # Main FastAPI application
 │   ├── api/
 │   │   ├── routes/
 │   │   │   ├── health.py
@@ -19,66 +38,61 @@ rag-backend/
 │   │   ├── logging.py
 │   │   └── security.py
 │   └── services/
+├── app.py                   # Hugging Face Spaces entry point
 ├── requirements.txt         # Python dependencies
-├── vercel.json             # Vercel deployment configuration
 └── README.md               # This file
 ```
 
-## Dependencies
+## API Endpoints
 
-All required dependencies are listed in `requirements.txt` and include:
-- `fastapi`: Modern, fast web framework for building APIs
-- `uvicorn`: ASGI server for running the application
-- `mangum`: Adapter for running ASGI apps on serverless platforms like Vercel
-- `python-dotenv`: For environment variable management
-- Other dependencies as needed for the RAG functionality
+- `GET /` - API status
+- `GET /health` - Health check with service status
+- `POST /query` - Ask questions about the book
+- `GET /docs` - Interactive API documentation (Swagger UI)
+- `GET /redoc` - Alternative API documentation (ReDoc)
 
-## Vercel Deployment Configuration
+## Environment Variables
 
-The `vercel.json` file is configured to:
-- Use `app/main.py` as the entry point
-- Deploy all routes via the FastAPI application
-- Allocate 1024MB memory with 60s max duration for serverless functions
+Configure in Hugging Face Spaces Settings → Repository secrets:
+
+```env
+OPENAI_API_KEY=your_google_gemini_api_key
+OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+OPENAI_EMBEDDING_MODEL=text-embedding-004
+OPENAI_CHAT_MODEL=gemini-2.5-flash
+QDRANT_URL=your_qdrant_cloud_url
+QDRANT_API_KEY=your_qdrant_api_key
+QDRANT_COLLECTION_NAME=book_chunks
+DATABASE_URL=your_postgresql_url
+RATE_LIMIT_PER_HOUR=100
+```
 
 ## Local Development
-
-To run the application locally:
 
 ```bash
 cd rag-backend
 pip install -r requirements.txt
-python -m app.main
+uvicorn app.main:app --reload --port 7860
 ```
 
-The API will be available at `http://localhost:8000` with documentation at `http://localhost:8000/docs`.
+The API will be available at `http://localhost:7860` with documentation at `http://localhost:7860/docs`.
 
-## Environment Variables
+## Deployment on Hugging Face Spaces
 
-Create a `.env` file in the rag-backend directory with the following variables:
+1. Create a new Space on Hugging Face
+2. Select "Docker" as SDK
+3. Push this code to the Space repository
+4. Configure environment variables in Settings
+5. Space will automatically build and deploy
 
-```env
-OPENAI_API_KEY=your_openai_api_key
-QDRANT_URL=your_qdrant_url
-QDRANT_API_KEY=your_qdrant_api_key
-GEMINI_API_KEY=your_gemini_api_key
-DATABASE_URL=your_database_url
-RATE_LIMIT=30/minute
-```
+## Health Check
 
-## Deployment
+Visit `/health` endpoint to check:
+- API status
+- Qdrant connection
+- Database connection
+- Vector collection status
 
-This backend is ready for deployment on Vercel:
+## License
 
-1. Push the code to a Git repository
-2. Connect your repository to Vercel
-3. Set the Root Directory to `rag-backend`
-4. The build will automatically use the configuration in `vercel.json`
-
-## API Endpoints
-
-- `GET /` - Health check and API info
-- `GET /docs` - Interactive API documentation (Swagger UI)
-- `GET /redoc` - Alternative API documentation (ReDoc)
-- `/query` - Query endpoint for RAG functionality
-- `/query-selected` - Query selected documents endpoint
-- `/health` - Health check endpoint
+MIT
