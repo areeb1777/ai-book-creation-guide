@@ -32,7 +32,7 @@ export default function ChatbotWidget() {
     try {
       const history = messages.map(m => ({ role: m.role, content: m.content }));
 
-      const response = await fetch(`${API_URL}/query`, {
+      const response = await fetch(`${API_URL}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
