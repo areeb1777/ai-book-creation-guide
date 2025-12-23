@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const API_URL = 'http://localhost:8000';
+// Hugging Face Spaces backend URL
+const API_URL = 'https://areeb1777-ai-book-rag-backend.hf.space';
 
 export default function ChatbotWidget() {
   const [mounted, setMounted] = useState(false);
@@ -31,7 +32,7 @@ export default function ChatbotWidget() {
     try {
       const history = messages.map(m => ({ role: m.role, content: m.content }));
 
-      const response = await fetch(`${API_URL}/api/query`, {
+      const response = await fetch(`${API_URL}/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
