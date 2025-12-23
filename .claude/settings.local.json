@@ -13,7 +13,10 @@
       "Bash(./venv/Scripts/pip:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nFix Railway deployment errors for RAG backend\n\n- Add missing google-generativeai dependency \\(used by gemini_service.py\\)\n- Update qdrant-client from 1.7.0 to 1.12.1 to fix protobuf version conflict\n- Fix Dockerfile to use PORT environment variable for Railway compatibility\n- Add dynamic PORT handling in healthcheck\n\nThese changes resolve build errors and make the backend deployable on Railway.\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(python test_routes.py)",
+      "Bash(python test_vercel.py)",
+      "Bash(python verify_backend.py)"
     ]
   }
 }

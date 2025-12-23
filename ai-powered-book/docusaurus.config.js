@@ -91,15 +91,41 @@ const config = {
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
+            type: 'dropdown',
             label: 'Chapters',
-          },
-          {
-            to: '/docs/intro',
-            label: 'Get Started',
             position: 'left',
+            items: [
+              {
+                type: 'doc',
+                docId: 'intro',
+                label: 'Introduction',
+              },
+              {
+                type: 'doc',
+                docId: 'chapter-1-spec-kit',
+                label: 'Spec-Kit Plus Fundamentals',
+              },
+              {
+                type: 'doc',
+                docId: 'chapter-2-claude-code',
+                label: 'Crafting Content with Claude Code',
+              },
+              {
+                type: 'doc',
+                docId: 'chapter-3-docusaurus',
+                label: 'Building with Docusaurus',
+              },
+              {
+                type: 'doc',
+                docId: 'chapter-4-github-pages',
+                label: 'GitHub Pages Deployment',
+              },
+              {
+                type: 'doc',
+                docId: 'chapter-5-best-practices',
+                label: 'Best Practices',
+              },
+            ],
           },
           {
             to: '/about',
@@ -110,6 +136,7 @@ const config = {
             href: 'https://github.com/your-username/ai-powered-book',
             label: 'GitHub',
             position: 'right',
+            className: 'navbar-github-link',
           },
         ],
       },

@@ -1,11 +1,12 @@
 import React from 'react';
-import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
-import {translate} from '@docusaurus/Translate';
+import clsx from 'clsx';
+import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
+import { translate } from '@docusaurus/Translate';
 import IconMenu from '@theme/Icon/Menu';
 import styles from './styles.module.css'; // Import the new styles
 
-export default function MobileSidebarToggle() {
-  const {toggle, shown} = useNavbarMobileSidebar();
+export default function MobileSidebarToggle({ className }) {
+  const { toggle, shown } = useNavbarMobileSidebar();
   return (
     <button
       onClick={toggle}
@@ -16,9 +17,9 @@ export default function MobileSidebarToggle() {
           'The ARIA label for hamburger menu button of mobile navigation',
       })}
       aria-expanded={shown}
-      className={styles.mobileSidebarToggle} // Use custom class
+      className={clsx('navbar__toggle', styles.mobileSidebarToggle, className)}
       type="button">
-      <IconMenu className={styles.iconMenu} /> {/* Apply custom class to icon */}
+      <IconMenu className={styles.iconMenu} />
     </button>
   );
 }

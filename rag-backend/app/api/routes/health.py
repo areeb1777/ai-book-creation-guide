@@ -101,7 +101,8 @@ async def health_check():
         "status": overall_status,
         "services": services_status,
         "version": "1.0.0",
-        "uptime_seconds": 0  # TODO: Implement actual uptime tracking
+        "uptime_seconds": 0,  # TODO: Implement actual uptime tracking
+        "environment": "production" if os.getenv("VERCEL") else "development"
     }
 
     # Log degraded/unhealthy status

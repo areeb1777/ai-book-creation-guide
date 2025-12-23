@@ -187,4 +187,20 @@
   .connector {
     display: none; /* Hide connector on mobile stack */
   }
+  /* Hide the icon flow on mobile to remove the unwanted icons */
+  .iconFlow {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+  }
+  .heroTitle {
+    font-size: 2rem;
+  }
+  .heroSubtitle {
+    font-size: 1rem;
+  }
 }

@@ -11,10 +11,14 @@ pnpm-debug.log*
 # Python
 /rag-backend/venv
 /rag-backend/__pycache__
+/rag-backend/**/__pycache__
 /rag-backend/*.pyc
+/rag-backend/**/*.pyc
 /rag-backend/.pytest_cache
 /rag-backend/.mypy_cache
 /rag-backend/.venv
+/rag-backend/test_*.py
+/rag-backend/verify_*.py
 
 # Environment variables
 .env

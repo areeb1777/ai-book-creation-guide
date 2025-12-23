@@ -17,10 +17,10 @@ typing-extensions>=4.8.0
 openai>=1.3.5
 
 # Google Gemini SDK (FREE embeddings and chat)
-google-generativeai>=0.4.1
+google-generativeai>=0.8.3
 
 # Vector database
-qdrant-client>=1.7.0
+qdrant-client>=1.12.1
 
 # Database adapter
 psycopg2-binary>=2.9.9

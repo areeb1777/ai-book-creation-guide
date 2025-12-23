@@ -11,6 +11,12 @@
   transition: color 0.2s ease-in-out;
 }
 
+@media (min-width: 997px) {
+  .mobileSidebarToggle {
+    display: none;
+  }
+}
+
 .mobileSidebarToggle:hover {
   color: var(--ifm-color-primary);
 }
