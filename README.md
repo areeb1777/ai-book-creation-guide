@@ -1,81 +1,163 @@
-# AI-Powered Book Creation Guide
+# 🚀 AI-Powered Book Creation Guide - Complete RAG System
 
-This repository contains the complete source code and documentation for the "AI-Powered Book Creation Guide," a project demonstrating how to build a full-stack application for writing and publishing a book with the assistance of AI.
+A comprehensive AI-powered book creation and Q&A system using Retrieval-Augmented Generation (RAG) with Google Gemini and vector databases. Features a Docusaurus frontend with integrated chatbot and FastAPI backend.
 
-## What's Inside? 
+## 🌟 **Features**
 
-This project is a monorepo containing two main components:
+### 📚 **AI-Powered Book Creation**
+- Spec-driven development approach with structured content creation
+- Claude Code integration for AI-assisted writing
+- Docusaurus-based documentation generation
+- GitHub Pages deployment for publishing
 
-1.  **`ai-powered-book/`**: A modern, fully custom Docusaurus website that serves as the frontend. It is designed to provide a premium reading experience and includes an integrated RAG (Retrieval-Augmented Generation) chatbot to answer questions about the book's content.
-2.  **`rag-backend/`**: A FastAPI (Python) backend that powers the chatbot. It handles document ingestion, embedding generation (using OpenAI), vector storage (using Qdrant), and provides the API endpoints for the chatbot to query.
+### 🤖 **Intelligent Q&A Backend**
+- FastAPI-powered RAG chatbot backend
+- Google Gemini integration for question answering
+- Qdrant vector database for semantic search
+- PostgreSQL metadata storage
+- Real-time chat interface with source citations
 
-### Tech Stack
+### 🌐 **Modern Web Interface**
+- Docusaurus-based documentation site
+- Responsive design with mobile support
+- Interactive chatbot widget
+- GitHub Pages deployment
+- Vercel deployment ready
 
--   **Frontend:**
-    -   React
-    -   Docusaurus
-    -   CSS Modules
--   **Backend:**
-    -   Python
-    -   FastAPI
-    -   Uvicorn
-    -   Qdrant (Vector Database)
-    -   PostgreSQL (via Neon for metadata storage)
-    -   OpenAI API (for embeddings and text generation)
+## 🛠️ **Tech Stack**
 
-## Getting Started
+### Backend
+- **Framework**: FastAPI
+- **AI Provider**: Google Gemini (via OpenAI-compatible endpoint)
+- **Vector DB**: Qdrant Cloud
+- **Metadata DB**: PostgreSQL (Neon)
+- **Deployment**: Hugging Face Spaces (100% FREE)
 
-To run this project locally, you will need to set up both the frontend and backend services.
+### Frontend
+- **Framework**: Docusaurus
+- **Styling**: CSS Modules & Custom CSS
+- **Deployment**: Vercel
+- **Chat Interface**: React-based widget
 
-### 1. Backend Setup
+## 📁 **Project Structure**
 
-1.  **Navigate to the backend directory:**
-    ```bash
-    cd rag-backend
-    ```
-2.  **Create and activate a virtual environment:**
-    ```bash
-    # For Windows
-    python -m venv venv
-    venv\Scripts\activate
+```
+ai-book-creation-guide/
+├── ai-powered-book/          # Docusaurus frontend
+│   ├── docs/                 # Book content markdown files
+│   ├── src/                  # Custom React components
+│   │   ├── components/       # React components
+│   │   ├── css/              # Custom CSS
+│   │   └── theme/            # Docusaurus theme customization
+│   ├── static/               # Static assets
+│   ├── docusaurus.config.js  # Docusaurus configuration
+│   ├── sidebars.js           # Navigation sidebar
+│   └── package.json          # Frontend dependencies
+├── rag-backend/              # FastAPI RAG backend
+│   ├── app/                  # FastAPI application
+│   │   ├── api/              # API routes
+│   │   │   ├── routes/       # Route definitions
+│   │   │   └── models/       # Request/response models
+│   │   ├── core/             # Core utilities
+│   │   ├── services/         # Business logic
+│   │   └── utils/            # Utility functions
+│   ├── scripts/              # Setup and ingestion scripts
+│   │   └── run_ingestion.py  # Data ingestion script
+│   ├── requirements.txt      # Python dependencies
+│   ├── Dockerfile            # Container configuration
+│   └── .env.example          # Environment variables template
+└── README.md                 # This file
+```
 
-    # For macOS/Linux
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  **Configure environment variables:**
-    -   Copy the example environment file: `cp .env.example .env`
-    -   Fill in the required API keys and URLs in the `.env` file (OpenAI, Qdrant, Neon). See `rag-backend/SETUP_GUIDE.md` for detailed instructions.
-5.  **Run the backend server:**
-    ```bash
-    uvicorn app.main:app --reload --port 8000
-    ```
+## 🚀 **Quick Start**
 
-### 2. Frontend Setup
+### Backend Setup
+1. Clone the repository
+2. Install Python dependencies: `pip install -r rag-backend/requirements.txt`
+3. Set up environment variables (see `.env.example`)
+4. Run the backend: `cd rag-backend && uvicorn app.main:app --reload`
 
-1.  **Navigate to the frontend directory:**
-    ```bash
-    cd ai-powered-book
-    ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Run the frontend development server:**
-    ```bash
-    npm start
-    ```
-    The website will be available at `http://localhost:3000`, and the chatbot will connect to your local backend server.
+### Frontend Setup
+1. Navigate to frontend: `cd ai-powered-book`
+2. Install dependencies: `npm install`
+3. Start development server: `npm start`
 
-## Deployment
+## 🔧 **Environment Variables**
 
-This project is designed to be deployed as two separate services:
+### Backend (.env)
+```env
+# Google Gemini API (OpenAI-compatible)
+OPENAI_API_KEY=your_gemini_api_key
+OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+OPENAI_EMBEDDING_MODEL=text-embedding-004
+OPENAI_CHAT_MODEL=gemini-2.5-flash
 
--   **Frontend (`ai-powered-book`)**: Deployed on **Vercel**. Configure the "Root Directory" in Vercel to point to the `ai-powered-book` folder.
--   **Backend (`rag-backend`)**: Deployed on **Railway**. Configure the "Root Directory" in Railway to point to the `rag-backend` folder. Railway will use the provided `Dockerfile` to deploy the application.
+# Qdrant Vector Database
+QDRANT_URL=your_qdrant_url
+QDRANT_API_KEY=your_qdrant_api_key
+QDRANT_COLLECTION_NAME=book_chunks
 
-Ensure that all necessary environment variables are set in the respective deployment platforms and that the frontend's `REACT_APP_API_URL` variable points to the public URL of your deployed backend.
+# PostgreSQL Metadata
+DATABASE_URL=your_postgres_url
+
+# API Configuration
+API_KEY=your_api_key
+CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+```
+
+## 📊 **API Endpoints**
+
+### Backend API
+- `GET /` - API status
+- `GET /health` - Health check
+- `POST /query` - Book Q&A endpoint
+- `GET /docs` - Interactive API documentation
+
+### Frontend Features
+- Interactive chatbot widget
+- Chapter navigation
+- Responsive design
+- Dark/light mode support
+
+## 📚 **Book Content Structure**
+
+The book is organized into chapters covering:
+- Spec-Kit Plus fundamentals
+- Claude Code integration
+- Docusaurus setup
+- GitHub Pages deployment
+- Best practices
+
+## 🌐 **Deployment**
+
+### Backend
+- **Hugging Face Spaces**: 100% FREE deployment
+- **Environment variables**: Configure in Space settings
+- **Auto-restart**: On environment variable changes
+
+### Frontend
+- **Vercel**: Free hosting with custom domain support
+- **GitHub Pages**: Alternative deployment option
+- **Auto-deploy**: From GitHub repository
+
+## 🤝 **Contributing**
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 **License**
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🎯 **Live Demo**
+
+**Frontend**: [https://ai-book-creation-guide.vercel.app](https://ai-book-creation-guide.vercel.app)
+
+**Backend API**: [https://areeb1777-ai-book-rag-backend.hf.space](https://areeb1777-ai-book-rag-backend.hf.space)
+
+---
+
+Made with ❤️ using AI, FastAPI, Docusaurus, and Google Gemini
