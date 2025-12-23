@@ -194,7 +194,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/your-username/ai-powered-book',
+                href: 'https://github.com/areeb1777/ai-book-creation-guide',
               },
             ],
           },
