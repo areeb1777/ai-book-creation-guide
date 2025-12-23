@@ -235,9 +235,97 @@ body {
   }
 }
 
-/* Hide GitHub on mobile screens */
+/* Keep GitHub icon visible on all screens but make it smaller on mobile */
 @media (max-width: 996px) {
-  .navbar-github-link {
-    display: none !important;
+  .header-github-link {
+    display: flex !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .header-github-link::before {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-github-link {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .header-github-link::before {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* Ensure dropdown menu works on mobile */
+@media (max-width: 996px) {
+  /* Make sure dropdown is visible and clickable on mobile */
+  .navbar__item.dropdown {
+    display: flex !important;
+  }
+
+  .navbar__link.navbar__link--hasDropdown {
+    display: flex !important;
+    padding: 0.35rem 0.4rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Dropdown menu styling for mobile */
+  .dropdown__menu {
+    position: absolute;
+    background: var(--ifm-background-color);
+    border: 1px solid var(--ifm-color-gray-300);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 4px;
+  }
+
+  .dropdown__link {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+    display: block;
+    color: var(--ifm-font-color-base);
+  }
+
+  .dropdown__link:hover {
+    background: var(--ifm-color-gray-100);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar__link.navbar__link--hasDropdown {
+    padding: 0.3rem 0.35rem !important;
+    font-size: 0.65rem !important;
+  }
+
+  .dropdown__menu {
+    min-width: 160px;
+  }
+
+  .dropdown__link {
+    padding: 0.45rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__link.navbar__link--hasDropdown {
+    padding: 0.25rem 0.3rem !important;
+    font-size: 0.6rem !important;
+  }
+
+  .dropdown__menu {
+    min-width: 150px;
+  }
+
+  .dropdown__link {
+    padding: 0.4rem 0.7rem !important;
+    font-size: 0.75rem !important;
   }
 }

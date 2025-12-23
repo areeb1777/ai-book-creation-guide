@@ -133,10 +133,10 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/your-username/ai-powered-book',
-            label: 'GitHub',
+            href: 'https://github.com/areeb1777/ai-book-creation-guide',
             position: 'right',
-            className: 'navbar-github-link',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
           },
         ],
       },
