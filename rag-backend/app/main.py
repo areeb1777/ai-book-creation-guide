@@ -1,35 +1,33 @@
 """
-RAG Chatbot API - Main Application Entry Point for Vercel Deployment
+RAG Chatbot API - Main Application Entry Point for Railway Deployment
 
 This FastAPI application provides endpoints for the RAG-based chatbot
 that answers questions about book content using vector similarity search.
-Designed for Vercel serverless deployment with Mangum adapter.
+Optimized for Railway deployment with persistent connections.
 """
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
 from dotenv import load_dotenv
 import os
 
-# Load environment variables (only in non-serverless environments if needed)
-if os.getenv("VERCEL") != "1":
-    load_dotenv()
+# Load environment variables
+load_dotenv()
 
-# Initialize FastAPI app with serverless-friendly settings
+# Initialize FastAPI app
 app = FastAPI(
     title="RAG Chatbot API",
     description="API for book Q&A chatbot using Retrieval-Augmented Generation",
     version="1.0.0",
-    docs_url="/docs",  # Access docs at /docs
-    redoc_url="/redoc",  # Access redoc at /redoc
-    openapi_url="/openapi.json"  # Access openapi schema at /openapi.json
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
 )
 
-# Configure CORS - Allow all origins for Vercel (configure more restrictively in production)
+# Configure CORS - Allow all origins (configure more restrictively in production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For Vercel deployment - restrict in production
+    allow_origins=["*"],  # Restrict in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -62,11 +60,8 @@ async def root():
         "status": "running",
         "version": "1.0.0",
         "docs": "/docs",
-        "environment": "production" if os.getenv("VERCEL") else "development"
+        "environment": os.getenv("RAILWAY_ENVIRONMENT", "development")
     }
-
-# Create Mangum handler for Vercel serverless functions
-handler = Mangum(app, lifespan="on")
 
 # This allows the application to run locally with uvicorn
 if __name__ == "__main__":
