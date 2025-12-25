@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-// Hugging Face Spaces backend URL
-const API_URL = 'https://areeb1777-ai-book-rag-backend.hf.space';
+// Backend URL - use localhost for development, HuggingFace for production
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://areeb1777-ai-book-rag-backend.hf.space'
+  : 'http://localhost:8000';
+
+console.log('Chatbot API URL:', API_URL, 'Environment:', process.env.NODE_ENV);
 
 export default function ChatbotWidget() {
   const [mounted, setMounted] = useState(false);

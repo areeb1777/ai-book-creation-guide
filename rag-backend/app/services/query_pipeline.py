@@ -49,11 +49,27 @@ class RAGPipeline:
             sanitized_query = self._sanitize_input(request.query)
             logger.info(f"Processing query: '{sanitized_query[:100]}...'")
 
-            # Step 2: Generate query embedding
+            # Step 2: Check if this is a general conversational query
+            # Only do this if using Gemini backend
+            if answer_generator.use_gemini and answer_generator.backend.is_general_query(sanitized_query):
+                logger.info("Detected general query - generating conversational response")
+                answer_text = answer_generator.backend.generate_general_response(sanitized_query)
+
+                response_time_ms = int((time.time() - start_time) * 1000)
+
+                return QueryResponse(
+                    answer=answer_text,
+                    sources=[],
+                    mode="general",
+                    session_id=request.session_id,
+                    response_time_ms=response_time_ms
+                )
+
+            # Step 3: Generate query embedding
             logger.info("Generating query embedding...")
             query_embedding = embeddings_service.generate_embedding(sanitized_query)
 
-            # Step 3: Retrieve top-k chunks from Qdrant
+            # Step 4: Retrieve top-k chunks from Qdrant
             logger.info(f"Searching for top-{request.top_k} relevant chunks...")
             chunks = vector_store.search(
                 query_embedding=query_embedding,
@@ -67,7 +83,7 @@ class RAGPipeline:
 
             logger.info(f"Found {len(chunks)} relevant chunks")
 
-            # Step 4: Generate answer
+            # Step 5: Generate answer
             logger.info("Generating answer...")
             answer_text = answer_generator.generate_answer(
                 query=sanitized_query,
@@ -75,23 +91,26 @@ class RAGPipeline:
                 conversation_history=request.conversation_history
             )
 
-            # Step 5: Extract source citations
+            # Step 6: Extract source citations
             sources = self._extract_sources(chunks)
 
             # Calculate response time
             response_time_ms = int((time.time() - start_time) * 1000)
 
-            # Step 6: Log query and answer
-            neon_client.log_query(
-                session_id=request.session_id,
-                query_text=sanitized_query,
-                query_mode="full_book",
-                answer_text=answer_text,
-                source_chunks=[s.model_dump() for s in sources],
-                response_time_ms=response_time_ms
-            )
+            # Step 7: Log query and answer (optional - don't fail on DB errors)
+            try:
+                neon_client.log_query(
+                    session_id=request.session_id,
+                    query_text=sanitized_query,
+                    query_mode="full_book",
+                    answer_text=answer_text,
+                    source_chunks=[s.model_dump() for s in sources],
+                    response_time_ms=response_time_ms
+                )
+            except Exception as log_error:
+                logger.warning(f"Failed to log query to database: {log_error}")
 
-            # Step 7: Return response
+            # Step 8: Return response
             return QueryResponse(
                 answer=answer_text,
                 sources=sources,

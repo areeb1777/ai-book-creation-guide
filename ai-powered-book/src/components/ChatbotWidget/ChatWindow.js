@@ -63,7 +63,15 @@ export default function ChatWindow({ onClose, selectedText }) {
 
     } catch (err) {
       console.error('Query failed:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
+
+      // Add assistant message with error explanation instead of showing error banner
+      const errorMessage = {
+        role: 'assistant',
+        content: err instanceof Error ? err.message : 'Sorry, something went wrong. Please try again.',
+        sources: []
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setLoading(false);
     }

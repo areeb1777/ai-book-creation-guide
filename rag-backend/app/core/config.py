@@ -27,6 +27,13 @@ class Settings(BaseSettings):
     openai_embedding_model: str = "text-embedding-3-small"
     openai_chat_model: str = "gpt-3.5-turbo-0125"
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # If using Gemini through OpenAI-compatible endpoint, set gemini_api_key
+        if not self.gemini_api_key and self.openai_api_key and self.openai_base_url:
+            if "generativelanguage.googleapis.com" in self.openai_base_url:
+                self.gemini_api_key = self.openai_api_key
+
     # Qdrant Configuration
     qdrant_url: str
     qdrant_api_key: str
@@ -52,8 +59,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"  # Ignore extra environment variables
+        case_sensitive=False
     )
 
     def get_cors_origins_list(self) -> list[str]:

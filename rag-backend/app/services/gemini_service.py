@@ -49,7 +49,8 @@ class GeminiChatService:
 
     def __init__(self, api_key: str):
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        # Use the latest flash model
+        self.model = genai.GenerativeModel('models/gemini-2.5-flash')
 
         self.system_prompt = """You are a helpful assistant answering questions about a book.
 
@@ -62,6 +63,92 @@ CRITICAL INSTRUCTIONS:
 
 Format your citations like: "According to Chapter X, Section Y, ..."
 """
+
+        self.general_chat_prompt = """You are a friendly book chatbot assistant created by Areeb Malik.
+
+PERSONALITY:
+- You are warm, helpful, and enthusiastic about books
+- You can handle greetings and general conversation naturally
+- You guide users to ask about the book when they go off-topic
+
+YOUR ROLE:
+1. For greetings (hello, hi, hey, etc.): Respond warmly and invite them to ask about the book
+2. For questions about who created you: "I was created by Areeb Malik!"
+3. For questions about what you do: Explain you help answer questions about this specific book
+4. For off-topic questions: Politely redirect them to ask about the book
+5. Be conversational and friendly, not robotic
+
+EXAMPLES:
+User: "Hello"
+Assistant: "Hello! 👋 I'm your book assistant, and I'm here to help you explore this book. Feel free to ask me anything about its content, chapters, or topics covered!"
+
+User: "Who made you?"
+Assistant: "I was created by Areeb Malik! I'm here to help you learn about this book. What would you like to know?"
+
+User: "What's the weather?"
+Assistant: "I'm a book assistant, so I focus on answering questions about this specific book. Is there anything from the book you'd like to learn about?"
+"""
+
+    def is_general_query(self, query: str) -> bool:
+        """
+        Detect if query is general conversation vs book-specific
+
+        Args:
+            query: User's question
+
+        Returns:
+            True if general conversation, False if potentially book-related
+        """
+        query_lower = query.lower().strip()
+
+        # Greetings
+        greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'greetings']
+        if any(greeting in query_lower for greeting in greetings) and len(query_lower.split()) <= 3:
+            return True
+
+        # Creator questions
+        creator_keywords = ['who made you', 'who created you', 'who built you', 'who developed you',
+                          'your creator', 'your maker', 'who are you', 'what are you']
+        if any(keyword in query_lower for keyword in creator_keywords):
+            return True
+
+        # Common off-topic questions (short queries that are clearly not about books)
+        if len(query_lower.split()) <= 5:
+            off_topic = ['weather', 'time', 'date', 'how are you', 'whats up', "what's up"]
+            if any(topic in query_lower for topic in off_topic):
+                return True
+
+        return False
+
+    def generate_general_response(self, query: str) -> str:
+        """
+        Generate response for general/casual queries
+
+        Args:
+            query: User's general question
+
+        Returns:
+            Friendly conversational response
+        """
+        prompt = f"""{self.general_chat_prompt}
+
+USER: {query}
+
+ASSISTANT:"""
+
+        try:
+            response = self.model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            logger.error(f"Gemini generation failed: {e}")
+            # Fallback responses
+            query_lower = query.lower()
+            if 'hello' in query_lower or 'hi' in query_lower or 'hey' in query_lower:
+                return "Hello! 👋 I'm your book assistant. I'm here to help you explore this book. What would you like to know?"
+            elif 'who made' in query_lower or 'who created' in query_lower:
+                return "I was created by Areeb Malik! I'm designed to help answer questions about this book. What would you like to know about it?"
+            else:
+                return "I'm a book assistant focused on helping you understand this book. Please ask me anything about its content!"
 
     def generate_answer(
         self,

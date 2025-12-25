@@ -26,7 +26,7 @@ class QueryResponse(BaseModel):
 
     answer: str = Field(
         ...,
-        min_length=20,
+        min_length=1,  # Allow short answers for greetings
         max_length=2000,
         description="Generated answer"
     )

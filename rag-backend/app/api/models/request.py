@@ -14,6 +14,7 @@ class QueryMode(str, Enum):
     """Query mode enum"""
     FULL_BOOK = "full_book"
     SELECTED_TEXT = "selected_text"
+    GENERAL = "general"  # For general conversational queries
 
 
 class ConversationTurn(BaseModel):
@@ -27,7 +28,7 @@ class QueryRequest(BaseModel):
 
     query: str = Field(
         ...,
-        min_length=10,
+        min_length=1,  # Allow short queries like "Hello"
         max_length=2000,
         description="User's natural language question"
     )
@@ -54,10 +55,11 @@ class QueryRequest(BaseModel):
     @field_validator('query')
     @classmethod
     def validate_query_length(cls, v: str) -> str:
-        """Ensure query has minimum word count"""
+        """Ensure query is not empty and not too long"""
+        v = v.strip()
+        if len(v) < 1:
+            raise ValueError("Query cannot be empty")
         word_count = len(v.split())
-        if word_count < 3:
-            raise ValueError("Query must contain at least 3 words")
         if word_count > 500:
             raise ValueError("Query must contain at most 500 words")
         return v

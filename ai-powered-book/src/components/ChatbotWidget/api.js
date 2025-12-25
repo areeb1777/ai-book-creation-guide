@@ -7,8 +7,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 // Configuration
-const API_URL = process.env.REACT_APP_RAG_API_URL || 'http://localhost:8000';
+const API_URL = 'http://localhost:8000';  // Hardcoded for reliability
 const API_KEY = process.env.REACT_APP_RAG_API_KEY;
+
+console.log('API Configuration:', { API_URL, hasApiKey: !!API_KEY });
 
 /**
  * Query the full book corpus
@@ -33,18 +35,31 @@ export async function queryFullBook(
     headers['X-API-Key'] = API_KEY;
   }
 
+  console.log('Sending query:', requestBody);
+
   const response = await fetch(`${API_URL}/api/query`, {
     method: 'POST',
     headers,
     body: JSON.stringify(requestBody)
   });
 
+  console.log('Response status:', response.status);
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || `API request failed: ${response.status}`);
+    const errorText = await response.text();
+    console.error('API Error Response:', errorText);
+
+    try {
+      const error = JSON.parse(errorText);
+      throw new Error(error.detail?.message || error.message || `API request failed: ${response.status}`);
+    } catch (parseError) {
+      throw new Error(`API request failed: ${response.status} - ${errorText}`);
+    }
   }
 
-  return response.json();
+  const data = await response.json();
+  console.log('API Response:', data);
+  return data;
 }
 
 /**
